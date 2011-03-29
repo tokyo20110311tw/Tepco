@@ -1,0 +1,4 @@
+Tepco提供データ変換スクリプト
+  Forecast     : 電気使用状況CSVをJSONPへ
+  RinbanTeiden : 輪番停電グループExcelをJSONPへ
+
