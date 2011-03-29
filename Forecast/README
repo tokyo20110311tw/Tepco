@@ -1,0 +1,16 @@
+Tepco-Forecast-Csv2JSOMP ver0.1
+
+はじめに
+- 電力使用状況CSVをJSONPファイルに変換するスクリプト
+
+動作環境
+- Perl5.8以上
+
+必要Perlモジュール
+- JSON
+
+ライセンス
+- GPL
+
+作者
+- tokyo20110311tw _at_ zoho.com

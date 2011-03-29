@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>輪番停電JSONP使用サンプル</title>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript">
+<!--
+
+var get_param = function() { 
+	var vars = [], hash; 
+	var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&'); 
+	for(var i = 0; i < hashes.length; i++) { 
+		hash = hashes[i].split('='); 
+		vars.push(hash[0]); 
+		vars[hash[0]] = hash[1]; 
+	} 
+	return vars; 
+};
+
+var callback = function(json) {
+	$('#result').empty();
+	var params = get_param();
+
+	if (params.pref)  { json = json[decodeURIComponent(params.pref)];
+		if (params.city)  { json = json[decodeURIComponent(params.city)];
+			if (params.ville) { json = json[decodeURIComponent(params.ville)];
+				if (params.group) { json = json[decodeURIComponent(params.group)]; }
+			}
+		}
+	}
+
+	var tmp = [];
+	if (!params.pref) {
+		$.each(json, function(i) {
+			tmp.push("<li><a href=\"" + window.location.pathname + "?pref=" + encodeURIComponent(i) + "\">" + i + "</a></li>");
+		});
+	}
+	else if (!params.city) {
+		$.each(json, function(i) {
+			tmp.push("<li><a href=\"" + window.location.pathname + "?pref=" + params.pref + "&city=" + encodeURIComponent(i) + "\">" + i + "</a></li>");
+		});
+	}
+	else if (!params.ville) {
+		$.each(json, function(i) {
+			tmp.push("<li><a href=\"" + window.location.pathname + "?pref=" + params.pref + "&city=" + params.city + "&ville=" + encodeURIComponent(i) + "\">" + i + "</a></li>");
+		});
+	}
+	else if (!params.group) {
+		$.each(json, function(i) {
+			tmp.push("<li><a href=\"" + window.location.pathname + "?pref=" + params.pref + "&city=" + params.city + "&ville=" + params.ville + "&group=" + encodeURIComponent(i) + "\">" + i + "</a></li>");
+		});
+	}
+	else {
+		$.each(json, function(i) {
+			tmp.push("<li>" + i + "</li>");
+		});
+	}
+	$('#result').append(tmp.sort().join(''));
+};
+
+$(function(){
+	$.ajax({
+		url : "js/group.jsonp",
+		dataType :"jsonp",
+		jsonp : "callback",
+		success : function(data){}
+	});
+});
+
+//-->
+</script>
+</head>
+<body>
+<ul id="result">
+</div>
+</body>
+</html>
+
